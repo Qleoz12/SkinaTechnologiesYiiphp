@@ -26,6 +26,14 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return 'usuarios';
     }
 
+    public function relations()
+    {
+        return array(
+            'categorias'=>array(self::BELONGS_TO, 'Categorias', 'id'),
+            'user'=>array(self::BELONGS_TO, 'User', 'id'),
+            'estados'=>array(self::BELONGS_TO, 'Estados', 'id)'),
+        );
+    }
     /**
      * {@inheritdoc}
      */
@@ -114,10 +122,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        \Yii::info("prueba llogin".$this->pass);
-        \Yii::info("prueba llogin".$password);
-        \Yii::info("prueba llogin".Yii::$app->security->validatePassword($password, $this->pass));
-        \Yii::info(var_dump(Yii::$app->security->validatePassword($password, $this->pass)));
-        return Yii::$app->security->validatePassword($password, $this->pass);
+
+        return $password===$this->pass;
     }
 }

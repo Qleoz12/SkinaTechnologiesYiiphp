@@ -17,7 +17,7 @@ class categoriasSearch extends categorias
     public function rules()
     {
         return [
-            [['id', 'estado'], 'integer'],
+            [['id', 'estado', 'creado', 'actualizado', 'creado_por', 'actualizado_por'], 'integer'],
             [['nombre_categoria'], 'safe'],
         ];
     }
@@ -60,6 +60,10 @@ class categoriasSearch extends categorias
         $query->andFilterWhere([
             'id' => $this->id,
             'estado' => $this->estado,
+            'creado' => $this->creado,
+            'actualizado' => $this->actualizado,
+            'creado_por' => $this->creado_por,
+            'actualizado_por' => $this->actualizado_por,
         ]);
 
         $query->andFilterWhere(['like', 'nombre_categoria', $this->nombre_categoria]);
