@@ -37,10 +37,12 @@ class CategoriasController extends Controller
     {
         $searchModel = new categoriasSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        //$model=Categorias::model()->findAll();
+        $model=null;
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model'=> $model,
         ]);
     }
 

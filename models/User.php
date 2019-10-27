@@ -15,6 +15,8 @@ use yii\web\IdentityInterface;
  * @property string $pass
  * @property string $auth_key
  * @property string $access_token
+ *
+ * @property Categorias[] $categorias
  */
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
@@ -25,15 +27,12 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return 'usuarios';
     }
-
-    public function relations()
+    //relations
+    public function getCategorias()
     {
-        return array(
-            'categorias'=>array(self::BELONGS_TO, 'Categorias', 'id'),
-            'user'=>array(self::BELONGS_TO, 'User', 'id'),
-            'estados'=>array(self::BELONGS_TO, 'Estados', 'id)'),
-        );
+        return $this->hasMany(Categorias::className(), ['creado_por' => 'id']);
     }
+
     /**
      * {@inheritdoc}
      */
@@ -125,4 +124,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
 
         return $password===$this->pass;
     }
+
+
 }

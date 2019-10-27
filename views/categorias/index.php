@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Categorias;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -9,6 +10,7 @@ use yii\grid\GridView;
 
 $this->title = 'Categorias';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="categorias-index">
 
@@ -28,11 +30,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'nombre_categoria',
-            'estado',
+            [
+                'attribute' => 'estadoName',
+                'value'=>'estadoName.nombre_estado',
+            ],
             'creado',
             'actualizado',
-            //'creado_por',
-            //'actualizado_por',
+            [
+                'attribute' => '_CreadoPor',
+                'value'=>'_CreadoPor.nombre_usuario',
+            ],
+            [
+                'attribute' => '_ActualizadoPor',
+                'value'=>'_ActualizadoPor.nombre_usuario',
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

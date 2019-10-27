@@ -9,6 +9,8 @@ use Yii;
  *
  * @property int $id
  * @property string $nombre_estado
+ *
+ * @property Categorias[] $categorias
  */
 class Estados extends \yii\db\ActiveRecord
 {
@@ -39,5 +41,11 @@ class Estados extends \yii\db\ActiveRecord
             'id' => 'ID',
             'nombre_estado' => 'Nombre Estado',
         ];
+    }
+
+
+    public function getCategorias()
+    {
+        return $this->hasMany(Categorias::className(), ['estado' => 'id']);
     }
 }

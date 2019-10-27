@@ -3,10 +3,6 @@
 namespace app\models;
 
 use Yii;
-use yii\behaviors\AttributeBehavior;
-use yii\behaviors\BlameableBehavior;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "categorias".
@@ -18,9 +14,14 @@ use yii\db\ActiveRecord;
  * @property int $actualizado
  * @property int $creado_por
  * @property int $actualizado_por
+ *
+ * @property Estados $estadoName
+ * @property User $_CreadoPor
+ * @property User $_ActualizadoPor
  */
-class Categorias extends \yii\db\ActiveRecord
+class categorias extends \yii\db\ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
@@ -29,45 +30,19 @@ class Categorias extends \yii\db\ActiveRecord
         return 'categorias';
     }
 
-    public function relations()
-    {
-        return array(
-            'user'=>array(self::BELONGS_TO, 'User', 'id'),
-            'user'=>array(self::BELONGS_TO, 'User', 'id'),
-            'estados'=>array(self::BELONGS_TO, 'Estados', 'id)'),
-        );
-    }
-
-    public function behaviors()
-    {
-        return [
-            'estado'=>[
-                'class' => AttributeBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => 'estado'
-                ],
-                'value' => function ($event) {return 1;},
-            ],
-            [
-                'class' => TimestampBehavior::className(),
-                'createdAtAttribute' => 'creado',
-                'updatedAtAttribute' => 'actualizado',
-            ],
-            [
-                'class' => BlameableBehavior::className(),
-                'createdByAttribute' => 'creado_por',
-                'updatedByAttribute' => 'actualizado_por',
-            ]
-        ];
-    }
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['nombre_categoria'], 'required'],
+            [['nombre_categoria', 'creado', 'actualizado', 'required'],
+            [['estado', 'creado', 'actualizado', 'creado_por', 'actualizado_por'], 'integer'],
             [['nombre_categoria'], 'string', 'max' => 45],
+            [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],
+            [['creado_por'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creado_por' => 'id']],
+            [['actualizado_por'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['actualizado_por' => 'id']],
+            ]
         ];
     }
 
@@ -85,5 +60,22 @@ class Categorias extends \yii\db\ActiveRecord
             'creado_por' => 'Creado Por',
             'actualizado_por' => 'Actualizado Por',
         ];
+    }
+
+
+    public function getEstadoName()
+    {
+        return $this->hasOne(Estados::className(), ['id' => 'estado']);
+    }
+
+    public function get_CreadoPor()
+    {
+        return $this->hasOne(User::className(), ['id' => 'creado_por']);
+    }
+
+    public function get_ActualizadoPor()
+    {
+        return $this->hasOne(User::className(), ['id' => 'actualizado_por'])
+            ->alias( ' u2');
     }
 }
