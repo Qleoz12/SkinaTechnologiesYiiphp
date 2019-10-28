@@ -2,18 +2,17 @@
 
 namespace app\controllers;
 
-use app\models\Subcategoria;
 use Yii;
-use app\models\categorias;
-use app\models\categoriasSearch;
+use app\models\Producto;
+use app\models\ProductoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CategoriasController implements the CRUD actions for categorias model.
+ * ProductoController implements the CRUD actions for Producto model.
  */
-class CategoriasController extends Controller
+class ProductoController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -31,13 +30,14 @@ class CategoriasController extends Controller
     }
 
     /**
-     * Lists all categorias models.
+     * Lists all Producto models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new categoriasSearch();
+        $searchModel = new ProductoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -45,7 +45,7 @@ class CategoriasController extends Controller
     }
 
     /**
-     * Displays a single categorias model.
+     * Displays a single Producto model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,17 +58,18 @@ class CategoriasController extends Controller
     }
 
     /**
-     * Creates a new categorias model.
+     * Creates a new Producto model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new categorias();
+        $model = new Producto();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save(false)) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
+        Yii::info($model->errors);
 
         return $this->render('create', [
             'model' => $model,
@@ -76,7 +77,7 @@ class CategoriasController extends Controller
     }
 
     /**
-     * Updates an existing categorias model.
+     * Updates an existing Producto model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -96,7 +97,7 @@ class CategoriasController extends Controller
     }
 
     /**
-     * Deletes an existing categorias model.
+     * Deletes an existing Producto model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -109,59 +110,16 @@ class CategoriasController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionSubcategorias()
-    {
-        Yii::info("XXX");
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $out = [];
-        Yii::info("XXX".$_POST['depdrop_parents']);
-        if (isset($_POST['depdrop_parents'])) {
-            $parents = $_POST['depdrop_parents'];
-            if ($parents != null) {
-                $cat_id = $parents[0];
-                $out = self::getSubcategoriasList($cat_id);
-                // the getSubCatList function will query the database based on the
-                // cat_id and return an array like below:
-                // [
-                //    ['id'=>'<sub-cat-id-1>', 'name'=>'<sub-cat-name1>'],
-                //    ['id'=>'<sub-cat_id_2>', 'name'=>'<sub-cat-name2>']
-                // ]
-                return ['output'=>$out, 'selected'=>''];
-            }
-        }
-        return ['output'=>'', 'selected'=>''];
-    }
-
-    public function getSubcategoriasList($id)
-    {
-        if ($id !== null)
-        {
-            $subcategorias_data = Subcategoria::find()
-                ->where(['categoria'=>$id])
-                ->all();
-            $arr = [];
-            if(isset($subcategorias_data) && count($subcategorias_data)>0){
-                foreach($subcategorias_data as $row) {
-                    array_push($arr,"<option value='",$row->id."'>".$row->nombre."</option>");
-                }
-
-            }
-            return $arr;
-
-        }
-
-        throw new NotFoundHttpException('The requested cant search sublist.');
-    }
     /**
-     * Finds the categorias model based on its primary key value.
+     * Finds the Producto model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return categorias the loaded model
+     * @return Producto the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = categorias::findOne($id)) !== null) {
+        if (($model = Producto::findOne($id)) !== null) {
             return $model;
         }
 

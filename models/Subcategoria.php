@@ -14,7 +14,7 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property string $nombre
  *
- *@property categorias $_categoria
+ * @property categorias $_Categoria
  */
 class Subcategoria extends baseModel
 {
@@ -50,6 +50,11 @@ class Subcategoria extends baseModel
             'nombre' => 'Nombre',
             'categoria' => 'categoria',
         ];
+    }
+
+    public function get_Categoria()
+    {
+        return $this->hasOne(categorias::className(), ['id' => 'categoria']);
     }
 
 

@@ -4,18 +4,18 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\SubcategoriaSearch */
+/* @var $searchModel app\models\ProductoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Subcategorias';
+$this->title = 'Productos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="subcategoria-index">
+<div class="producto-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Subcategoria', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Producto', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -25,14 +25,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'nombre',
-            [
-                'attribute' => 'estadoName',
-                'value'=>'estadoName.nombre_estado',
-            ],
+
+            'id',
+            'nombre_producto',
             [
                 'attribute' => '_Categoria',
                 'value'=>'_Categoria.nombre_categoria',
+            ],
+            [
+                'attribute' => '_Subcategoria',
+                'value'=>'_Subcategoria.nombre',
             ],
             'creado:datetime',
             'actualizado:datetime',

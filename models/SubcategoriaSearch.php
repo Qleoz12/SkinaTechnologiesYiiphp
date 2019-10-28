@@ -11,6 +11,10 @@ use app\models\Subcategoria;
  */
 class SubcategoriaSearch extends Subcategoria
 {
+    public $estadoName;
+    public $_CreadoPor;
+    public $_ActualizadoPor;
+    public $_Categoria;
     /**
      * {@inheritdoc}
      */
@@ -19,6 +23,7 @@ class SubcategoriaSearch extends Subcategoria
         return [
             [['id', 'estado'], 'integer'],
             [['nombre'], 'safe'],
+            [['_Categoria','estadoName','_CreadoPor','_ActualizadoPor'], 'safe'],
         ];
     }
 
@@ -41,13 +46,28 @@ class SubcategoriaSearch extends Subcategoria
     public function search($params)
     {
         $query = Subcategoria::find();
-
-        // add conditions that should always apply here
+        $query->joinWith(['estadoName','_CreadoPor','_ActualizadoPor','_Categoria']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
+        $dataProvider->sort->attributes['_Categoria'] = [
+            'asc' => ['categorias.nombre_categoria' => SORT_ASC],
+            'desc' => ['categorias.nombre_categoria' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['estadoName'] = [
+            'asc' => ['estados.nombre_estado' => SORT_ASC],
+            'desc' => ['estados.nombre_estado' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['_CreadoPor'] = [
+            'asc' => ['usuarios.nombre_usuario' => SORT_ASC],
+            'desc' => ['usuarios.nombre_usuario' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['_ActualizadoPor'] = [
+            'asc' => ['usuarios.nombre_usuario' => SORT_ASC],
+            'desc' => ['usuarios.nombre_usuario' => SORT_DESC],
+        ];
         $this->load($params);
 
         if (!$this->validate()) {
@@ -63,6 +83,10 @@ class SubcategoriaSearch extends Subcategoria
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre]);
+        $query->andFilterWhere(['like', 'estados.nombre_estado', $this->estadoName]);
+        $query->andFilterWhere(['like', 'usuarios.nombre_usuario', $this->_CreadoPor]);
+        $query->andFilterWhere(['like', ' u2.nombre_usuario', $this->_ActualizadoPor]);
+        $query->andFilterWhere(['like', 'categorias.nombre_categoria', $this->_Categoria]);
 
         return $dataProvider;
     }
