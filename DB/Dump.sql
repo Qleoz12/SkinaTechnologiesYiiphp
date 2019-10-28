@@ -1,8 +1,10 @@
+CREATE DATABASE  IF NOT EXISTS `skinatechnologies` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `skinatechnologies`;
 -- MySQL dump 10.13  Distrib 5.6.44, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: skinatechnologies
 -- ------------------------------------------------------
--- Server version	5.6.44
+-- Server version 5.6.44
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -31,7 +33,7 @@ CREATE TABLE `categorias` (
   `creado_por` bigint(20) NOT NULL,
   `actualizado_por` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +42,7 @@ CREATE TABLE `categorias` (
 
 LOCK TABLES `categorias` WRITE;
 /*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
-INSERT INTO `categorias` VALUES (10,'aseo',1,0,0,0,0),(11,'casa',NULL,1571975641,1571975641,19,19),(12,'tech',1,1571978112,1571978112,19,19);
+INSERT INTO `categorias` VALUES (11,'casa',1,1571975641,1571975641,19,20),(12,'tech',1,1571978112,1571978112,20,19),(13,'movil2',1,1572192160,1572193105,20,20),(15,'autos',1,1572222142,1572222142,19,19),(16,'comida fast',1,1572223304,1572223304,19,19),(17,'radar',1,1572224011,1572224011,19,19);
 /*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -123,12 +125,17 @@ DROP TABLE IF EXISTS `subcategorias`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `subcategorias` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
   `estado` bigint(20) NOT NULL,
+  `creado` int(11) NOT NULL,
+  `actualizado` int(11) NOT NULL,
+  `creado_por` bigint(20) NOT NULL,
+  `actualizado_por` bigint(20) NOT NULL,
+  `categoria` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_estado_idx_sub` (`estado`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,6 +144,7 @@ CREATE TABLE `subcategorias` (
 
 LOCK TABLES `subcategorias` WRITE;
 /*!40000 ALTER TABLE `subcategorias` DISABLE KEYS */;
+INSERT INTO `subcategorias` VALUES (1,'hamburguesa',1,1572225191,1572225191,19,19,16),(2,'android',1,1572225200,1572225200,19,19,13);
 /*!40000 ALTER TABLE `subcategorias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -157,7 +165,7 @@ CREATE TABLE `usuarios` (
   `access_token` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombre_usuario_UNIQUE` (`nombre_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -166,7 +174,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (19,'demo',1,1,'demodemo','xJo9F6_nbHzT0YGI6Dpzq9w_g5gFsy-l','F3271izkFUnZ64q2ZSOU8GVo1VcOekP7');
+INSERT INTO `usuarios` VALUES (19,'demo',1,1,'demodemo','xJo9F6_nbHzT0YGI6Dpzq9w_g5gFsy-l','F3271izkFUnZ64q2ZSOU8GVo1VcOekP7'),(20,'prueba',1,1,'prueba','','');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -187,4 +195,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-25  6:05:42
+-- Dump completed on 2019-10-27 20:23:04

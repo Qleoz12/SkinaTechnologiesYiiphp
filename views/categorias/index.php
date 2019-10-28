@@ -34,8 +34,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'estadoName',
                 'value'=>'estadoName.nombre_estado',
             ],
-            'creado',
-            'actualizado',
+            'creado:datetime',
+            'actualizado:datetime',
             [
                 'attribute' => '_CreadoPor',
                 'value'=>'_CreadoPor.nombre_usuario',
