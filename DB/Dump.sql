@@ -1,10 +1,10 @@
-CREATE DATABASE  IF NOT EXISTS `skinatechnologies` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE  IF NOT EXISTS `skinatechnologies` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `skinatechnologies`;
--- MySQL dump 10.13  Distrib 5.6.44, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: skinatechnologies
+-- Host: localhost    Database: skinatechnologies
 -- ------------------------------------------------------
--- Server version 5.6.44
+-- Server version	5.7.18-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -78,10 +78,18 @@ DROP TABLE IF EXISTS `producto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `producto` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `nombre_producto` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `estado` bigint(20) NOT NULL,
+  `creado` int(11) NOT NULL,
+  `actualizado` int(11) NOT NULL,
+  `creado_por` bigint(20) NOT NULL,
+  `actualizado_por` bigint(20) NOT NULL,
+  `categoria` bigint(20) NOT NULL,
+  `subcategoria` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nombre_producto_UNIQUE` (`nombre_producto`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,6 +98,7 @@ CREATE TABLE `producto` (
 
 LOCK TABLES `producto` WRITE;
 /*!40000 ALTER TABLE `producto` DISABLE KEYS */;
+INSERT INTO `producto` VALUES (5,'pitillo fast food ',1,1572318658,1572320036,19,19,13,2);
 /*!40000 ALTER TABLE `producto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -135,7 +144,7 @@ CREATE TABLE `subcategorias` (
   `categoria` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_estado_idx_sub` (`estado`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,7 +153,7 @@ CREATE TABLE `subcategorias` (
 
 LOCK TABLES `subcategorias` WRITE;
 /*!40000 ALTER TABLE `subcategorias` DISABLE KEYS */;
-INSERT INTO `subcategorias` VALUES (1,'hamburguesa',1,1572225191,1572225191,19,19,16),(2,'android',1,1572225200,1572225200,19,19,13);
+INSERT INTO `subcategorias` VALUES (1,'hamburguesa',1,1572225191,1572225191,19,19,16),(2,'android',1,1572225200,1572225200,19,19,13),(3,'ferrari',1,1572264979,1572264979,19,19,15);
 /*!40000 ALTER TABLE `subcategorias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,14 +186,6 @@ LOCK TABLES `usuarios` WRITE;
 INSERT INTO `usuarios` VALUES (19,'demo',1,1,'demodemo','xJo9F6_nbHzT0YGI6Dpzq9w_g5gFsy-l','F3271izkFUnZ64q2ZSOU8GVo1VcOekP7'),(20,'prueba',1,1,'prueba','','');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping events for database 'skinatechnologies'
---
-
---
--- Dumping routines for database 'skinatechnologies'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -195,4 +196,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-27 20:23:04
+-- Dump completed on 2019-10-28 23:58:18
