@@ -9,11 +9,6 @@ use Yii;
  *
  * @property int $id
  * @property string $nombre_producto
- * @property int $estado
- * @property int $creado
- * @property int $actualizado
- * @property int $creado_por
- * @property int $actualizado_por
  * @property int $categoria
  * @property int $subcategoria
  *
@@ -38,7 +33,7 @@ class Producto extends baseModel
     {
         return [
             [['nombre_producto', 'categoria', 'subcategoria'], 'required'],
-            [['estado', 'creado', 'actualizado', 'creado_por', 'actualizado_por', 'categoria', 'subcategoria'], 'integer'],
+            [['estado', 'creado', 'actualizado', 'creado_por', 'actualizado_por', 'categoria'], 'integer'],
             [['nombre_producto'], 'string', 'max' => 45],
             [['nombre_producto'], 'unique'],
             [['estado'], 'exist', 'skipOnError' => true, 'targetClass' => Estados::className(), 'targetAttribute' => ['estado' => 'id']],

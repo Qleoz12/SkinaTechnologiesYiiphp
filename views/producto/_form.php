@@ -18,10 +18,11 @@ use yii\helpers\Url;
     <?= $form->field($model, 'nombre_producto')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'categoria')->dropDownList( \yii\helpers\ArrayHelper::map(\app\models\categorias::find()->all(), 'id', 'nombre_categoria'),['id'=>'nombre_categoria']) ?>
     <?= $form->field($model, 'subcategoria')->widget(DepDrop::classname(), [
-    'options'=>['id'=>'subcategoria'],
+    'options'=>['id'=>'nombre'],
     'pluginOptions'=>[
-    'depends'=>['categoria'],
+    'depends'=>['nombre_categoria'],
     'placeholder'=>'Select...',
+    'loading'=>true,
     'url'=>Url::to(['/categorias/subcategorias'])
     ]
     ]);?>

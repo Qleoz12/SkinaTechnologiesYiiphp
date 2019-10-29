@@ -6,6 +6,7 @@ use app\models\Subcategoria;
 use Yii;
 use app\models\categorias;
 use app\models\categoriasSearch;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -111,25 +112,18 @@ class CategoriasController extends Controller
 
     public function actionSubcategorias()
     {
-        Yii::info("XXX");
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = [];
-        Yii::info("XXX".$_POST['depdrop_parents']);
+
         if (isset($_POST['depdrop_parents'])) {
             $parents = $_POST['depdrop_parents'];
             if ($parents != null) {
                 $cat_id = $parents[0];
                 $out = self::getSubcategoriasList($cat_id);
-                // the getSubCatList function will query the database based on the
-                // cat_id and return an array like below:
-                // [
-                //    ['id'=>'<sub-cat-id-1>', 'name'=>'<sub-cat-name1>'],
-                //    ['id'=>'<sub-cat_id_2>', 'name'=>'<sub-cat-name2>']
-                // ]
-                return ['output'=>$out, 'selected'=>''];
+                echo Json::encode(['output'=>$out, 'selected'=>'']);
+                return;
             }
         }
-        return ['output'=>'', 'selected'=>''];
+        echo Json::encode(['output'=>'', 'selected'=>'']);
     }
 
     public function getSubcategoriasList($id)
@@ -138,16 +132,8 @@ class CategoriasController extends Controller
         {
             $subcategorias_data = Subcategoria::find()
                 ->where(['categoria'=>$id])
-                ->all();
-            $arr = [];
-            if(isset($subcategorias_data) && count($subcategorias_data)>0){
-                foreach($subcategorias_data as $row) {
-                    array_push($arr,"<option value='",$row->id."'>".$row->nombre."</option>");
-                }
-
-            }
-            return $arr;
-
+                ->select(['id','nombre AS name'])->asArray()->all();;
+            return $subcategorias_data;
         }
 
         throw new NotFoundHttpException('The requested cant search sublist.');

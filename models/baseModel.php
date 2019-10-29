@@ -13,11 +13,11 @@ use yii\db\ActiveRecord;
 * @property int $actualizado
 * @property int $creado_por
 * @property int $actualizado_por
- *
- * @property Estados $estadoName
- * @property User $_CreadoPor
- * @property User $_ActualizadoPor
- * */
+*
+* @property Estados $estadoName
+* @property User $_CreadoPor
+* @property User $_ActualizadoPor
+* */
 class baseModel extends \yii\db\ActiveRecord
 {
 
